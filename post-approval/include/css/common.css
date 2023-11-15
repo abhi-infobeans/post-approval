@@ -1,0 +1,18 @@
+
+/**
+ *  Plugin custom css
+ */
+
+.delete_rpost, .edit_rpost, .delete_post{
+	cursor: pointer;
+	color: #2271b1;
+}
+
+li.li-user {
+    display: inline-grid;
+    margin-right: 20px;
+    
+}
+.restricted_show_hide{
+	display: none;
+}
