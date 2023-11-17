@@ -22,7 +22,8 @@
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       post-approval
- * Domain Path:       /languages
+ * Requires wordpress at least: 6.4.1
+ * Tested on: 6.4.1
  */
 
 // If this file is called directly, abort.
