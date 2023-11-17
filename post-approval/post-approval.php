@@ -73,8 +73,6 @@ require plugin_dir_path( __FILE__ ) . 'includes/post-approval-action.php';
 
 
 
-@ini_set( 'error_log', ABSPATH.'/log/php_error.log' );
-
 /**
  * Begins execution of the plugin.
  *
