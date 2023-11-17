@@ -1,6 +1,12 @@
 <?php
 /**
- *  Action Hook
+ * The action hook functionality of the plugin.
+ *
+ * @link       https://infobeans.com
+ * @since      1.0.0
+ *
+ * @package    Post_Approval
+ * @subpackage Post_Approval/includes
  */
 
 // Exit if accessed directly.
@@ -38,7 +44,6 @@ function get_assign_user($post){
 }
 
 
-
 /**
  * function to get all editor Data
  * 
@@ -58,6 +63,7 @@ function get_all_editors(){
  * function to get all restricted Posts Data
  * 
  * @return post array
+ * 
  */
 
 
@@ -87,21 +93,6 @@ function get_restricted_post($postdata = false){
 }
 
 
-function post_approval_scripts() {
-
-	wp_enqueue_style( 'post-approval-style', POST_APPROVAL_PLUGIN_DIR. 'include/css/common.css', array(), '1.0', 'all' );
-
-    wp_enqueue_script( 'post-approval-script', POST_APPROVAL_PLUGIN_DIR. 'include/js/post-approval.js', array('jquery'), '1.0', true );
-    
-    wp_localize_script( 'post-approval-script', 'approval_object', 
-        array( 
-            'ajax_url' => admin_url( 'admin-ajax.php' ),
-            'nonce' => wp_create_nonce('post-approval-nonce')
-        )
-    );
-}
-
-
 
 /**
  * function to check post exist or not
@@ -126,9 +117,11 @@ function exist_post_or_not($post_id){
 }
 
 /**
- * Function to check Editor post and assign
+ * Function to check editor post and assign
  * 
- *  @return 
+ * @return Review User
+ * 
+ * @param  Post ID
  */
 
 function reviewr_users($post_id){
@@ -184,6 +177,16 @@ function reviewr_users($post_id){
 }
 
 
+
+/**
+ * Function ajax request to check restricted post user
+ * 
+ * @return User Data
+ * 
+ * @param  Post Type
+ */
+
+
 function ajax_process_post() {
 
     check_ajax_referer( 'post-approval-nonce', 'nonce' );  // Check the nonce.
@@ -209,28 +212,14 @@ function ajax_process_post() {
 }
 
 
-function pas_hide_minor_publishing() {
 
-    global $post;
-    $screen = get_current_screen();
-    $restricted_post = get_restricted_post(false);
-
- 
-    if(!$post) { return; }
-
-    $review_user =  ( int ) get_post_meta($post->ID,'post_viewer',true);
-   
-    
-    if( in_array( $screen->id, $restricted_post ) ) {
-        
-        echo '<style>button.components-button.editor-post-publish-panel__toggle.editor-post-publish-button__button.is-primary { display: none; }</style>';
-
-        if($review_user === get_current_user_id()){ 
-			echo '<style>button.components-button.editor-post-publish-panel__toggle.editor-post-publish-button__button.is-primary { display: block; }</style>';
-
-        }
-    }
-}
+/**
+ * Function ajax request to check restricted post user
+ * 
+ * @return User Data
+ * 
+ * @param  Post Id
+ */
 
 function change_post_status_after_save( $post_id, $post, $update ) {
     if(!exist_post_or_not($post_id)){
@@ -238,8 +227,15 @@ function change_post_status_after_save( $post_id, $post, $update ) {
     }
 }
 
-function ajax_edit_restricted_post(){
 
+/**
+ * Function ajax request to update restricted post user
+ * 
+ * @return User Data
+ * 
+ * @param  User Id Post ID
+ */
+function ajax_edit_restricted_post(){
 
 	check_ajax_referer( 'post-approval-nonce', 'nonce' );  // Check the nonce.
 	$roles ='editor';
@@ -266,6 +262,13 @@ function ajax_edit_restricted_post(){
 }
 
 
+/**
+ * Function ajax request to delete restricted post
+ * 
+ * @return message
+ * 
+ * @param  Post ID
+ */
 function ajax_delete_restricted_post(){
 
     global $wpdb;
@@ -284,9 +287,14 @@ function ajax_delete_restricted_post(){
 }
 
 
-
+/**
+ * Function ajax request to updte restricted post
+ * 
+ * @return message
+ * 
+ * @param  Post ID, Post Type
+ */
 function ajax_udpate_restricted_post(){
-
 
     check_ajax_referer( 'post-approval-nonce', 'nonce' );  // Check the nonce.
   
@@ -303,14 +311,19 @@ function ajax_udpate_restricted_post(){
     wp_die(); 
 }
 
-
 function add_custom_capability_to_editor() {
+
     $editor_role = get_role('editor');
     $editor_role->add_cap('editor_capiblity');
 }
 
-
-
+/**
+ * Function ajax request to delete assign post
+ * 
+ * @return message
+ * 
+ * @param  Post ID
+ */
 function ajax_delete_assign_post(){
 
     global $wpdb;
@@ -331,6 +344,14 @@ function ajax_delete_assign_post(){
 }
 
 
+/**
+ * Fuction to re assign post to editor.
+ *
+ * @param Post ID, User Id
+ * 
+ * @return comment
+ */
+
 function ajax_re_assign_post(){
 
 	global $wpdb;
@@ -345,6 +366,7 @@ function ajax_re_assign_post(){
 
 
         $wpdb->update($user_approval_table, array('post_id'=>$_POST['id'], 'user_id'=>$_POST['assign_user']), array('post_id'=>$_POST['id']));
+         update_post_meta($_POST['id'],'post_viewer',$_POST['assign_user']);
 
         $wpdb->query($sql);
 
@@ -355,11 +377,16 @@ function ajax_re_assign_post(){
 	}
 
 	wp_die(); 
-
-
 }
 
 
+/**
+ * Fuction to update post comment.
+ *
+ * @param Post ID
+ * 
+ * @return comment
+ */
 function user_post_comment($post_id = false){
   
   	global $wpdb; $postcomment = '';
@@ -372,9 +399,114 @@ function user_post_comment($post_id = false){
          	foreach ($post_comment as $comment){
          		$user= get_userdata($comment['user_id']);
         		$postcomment.= '<b>'.ucfirst($user->display_name).':</b> ';
-         		$postcomment.= $comment['user_comment'];
+         		$postcomment.= $comment['user_comment']."<br>";
          	}
         }
     }
     return $postcomment;
+}
+
+
+/**
+ * Return the Restriction Form data.
+ *
+ * @param 
+ * @return Form data
+ */
+function post_approval_settings(){
+   
+    require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/form/post-approval-restriction-settings-form.php';
+}
+
+
+/**
+  * function to get editor assign post 
+  * 
+  * @param 
+  * @return post array
+ */
+
+function pending_review_post(){ 
+    		
+    			global $wpdb; $all_ids = array(); $login_user = get_current_user_id();
+    			$user_approval_table= $wpdb->prefix."user_approval_post";
+			    if($login_user){
+			    	$review_post_ids = $wpdb->get_results( "SELECT id, post_id FROM $user_approval_table where user_id = $login_user ", ARRAY_A );
+				     if($review_post_ids){
+				     	foreach($review_post_ids as $ids){
+				     	 $all_ids[] = (int) $ids['post_id'];
+				     	}
+				     }     
+			    }
+				$args = array(
+					'post_type' => 'any',
+					'post_status'=>'draft',
+				    'post__in' => $all_ids
+				);
+	            $review_posts = get_posts($args);
+				if(isset($_GET['view']) && $_GET['view']!=''){
+                    require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/post-approval-pending-post-view.php';
+				}else{
+			        require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/post-approval-pending-post-list.php';
+				}
+	     ?>
+
+<?php }
+
+
+/**
+ * Return the Restriction post list.
+ *
+ * @param 
+ * @return data array
+ */
+function restricted_post_list(){
+
+    require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/post-approval-restricted-post-list.php';
+
+}
+
+
+/**
+ * Return a ready-to-use admin url for adding a new content type.
+ *
+ * @param string $content_type Content type to link to.
+ * @return string
+ */
+function pas_get_add_new_link( $content_type = '' ) {
+
+	return pas_admin_url( 'admin.php?page=' . $content_type );
+}
+
+
+/**
+ * Return the appropriate admin URL depending on our context.
+ *
+ * @param string $path URL path.
+ * @return string
+ */
+function pas_admin_url( $path ) {
+	if ( is_multisite() && is_network_admin() ) {
+		return network_admin_url( $path );
+	}
+
+	return admin_url( $path );
+}
+
+/**
+ * load script file.
+ *
+ * @param 
+ * @return 
+ */
+function post_approval_scripts() {
+
+    wp_enqueue_script( 'post-approval-script', POST_APPROVAL_PLUGIN_DIR. 'includes/js/post-approval.js', array('jquery'), '1.0', true );
+    
+    wp_localize_script( 'post-approval-script', 'approval_object', 
+        array( 
+            'ajax_url' => admin_url( 'admin-ajax.php' ),
+            'nonce' => wp_create_nonce('post-approval-nonce')
+        )
+    );
 }

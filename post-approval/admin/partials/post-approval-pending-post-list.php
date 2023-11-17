@@ -1,16 +1,21 @@
 
 <?php
 /**
- *  Pending view post list content .
+ * Provide a pending view post list content in admin area view for the plugin
+ *
+ * This file is used to markup the admin-facing aspects of the plugin.
+ *
+ * @link       https://infobeans.com
+ * @since      1.0.0
+ *
+ * @package    Post_Approval
+ * @subpackage Post_Approval/admin/partials
  */
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-
-
-
 ?>
 
 <div id="wpbody-content">
@@ -24,7 +29,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 <table class="wp-list-table widefat fixed striped table-view-list pages">
 <thead>
    <tr>
-      <td>Post Id</td>
       <td>Post Title</td>
       <td>Post Contect</td>
       <td>Comment</td>
@@ -51,7 +55,6 @@ if ( ! defined( 'ABSPATH' ) ) {
                
         <?php 
          echo '<tr id="" class="iedit author-self level-0 post-3 type-page status-draft hentry">
-                  <td>'.ucfirst($post->ID).'</td>
                   <td>'.ucfirst($post->post_title).'</td>
                   <td>'.$post->post_content.'</td>
                   <td>'.$comment_data.'</td>
@@ -66,7 +69,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 </tbody>
 <tfoot>
    <tr>
-      <td>Post Id</td>
       <td>Post Title</td>
       <td>Post Contect</td>
       <td>Comment</td>

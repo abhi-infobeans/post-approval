@@ -1,7 +1,8 @@
-
 /**
- *  Plugin custom css
+ * All of the CSS for your admin-specific functionality should be
+ * included in this file.
  */
+
 
 .delete_rpost, .edit_rpost, .delete_post{
 	cursor: pointer;

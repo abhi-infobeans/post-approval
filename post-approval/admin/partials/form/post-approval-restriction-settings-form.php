@@ -1,8 +1,17 @@
 <?php 
 
 /**
- *  Restriction Settings Form 
+ * Provide a restriction settings form in admin area view for the plugin
+ *
+ * This file is used to markup the admin-facing aspects of the plugin.
+ *
+ * @link       https://infobeans.com
+ * @since      1.0.0
+ *
+ * @package    Post_Approval
+ * @subpackage Post_Approval/admin/partials/form
  */
+
 
     global $wpdb;
     $table_name = TABLE_RES_POST;
@@ -21,7 +30,6 @@
     
     if(isset($_POST['savedata']) && $_POST['savedata'] == 'savedata' && $_POST['restricted_post']!=''){
    
-      
       if(isset($_POST['restricted_post']) && $_POST['restricted_post']!=''){
   
         $restricted_post = $_POST['restricted_post'];
@@ -30,7 +38,6 @@
 				            
 				            $sql = $wpdb->prepare( "INSERT INTO ".$table_name." (post_title, post_slug) VALUES ( %s, %s )", $restricted_post, $restricted_post );
 				                $wpdb->query($sql);
-
 				     }
       }
 

@@ -1,118 +1,93 @@
 <?php
 
 /**
-* Plugin Name: Post Approval
+ * The plugin bootstrap file
+ *
+ * This file is read by WordPress to generate the plugin information in the plugin
+ * admin area. This file also includes all of the dependencies used by the plugin,
+ * registers the activation and deactivation functions, and defines a function
+ * that starts the plugin.
+ *
+ * @link              https://infobeans.com
+ * @since             1.0.0
+ * @package           Post_Approval
+ *
+ * @wordpress-plugin
+ * Plugin Name:       Post Approval
+ * Plugin URI:        https://post_approval.com
+ * Description:       Post approval life cycle system.
+ * Version:           1.0.0
+ * Author:            Infobeans
+ * Author URI:        https://infobeans.com/
+ * License:           GPL-2.0+
+ * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
+ * Text Domain:       post-approval
+ * Domain Path:       /languages
+ */
 
-* Plugin URI: http://mysite.com/
-
-* Description: Post approval life cycle system.
-
-* Version: 1.0 
-
-* Author: Infobeans
-
-* Author URI: Infobeans.com
-
-* License: 
-* 
-*/
+// If this file is called directly, abort.
+if ( ! defined( 'WPINC' ) ) {
+	die;
+}
 
 
-if ( !defined( 'ABSPATH' ) ) exit;
-
-
+/**
+ * Currently plugin version.
+ */
+global $wpdb;
+define( 'POST_APPROVAL_VERSION', '1.0.0' );
+define( 'TABLE_RES_POST', $wpdb->prefix.'restricted_post' );
+define( 'TABLE_USER_POST_APPROVAL', $wpdb->prefix.'user_approval_post' );
+define( 'TABLE_USER_POST_COMMENT', $wpdb->prefix.'user_post_comment' );
 define( 'POST_APPROVAL_PLUGIN_DIR', plugin_dir_url( __FILE__ ) );
 
-require_once plugin_dir_path( __FILE__ ) . '/action-hook.php';
-
-require_once plugin_dir_path( __FILE__ ) . '/config.php';
-
-
-// Activate Plugin
-register_activation_hook( __FILE__, 'post_approval_activation');
-
-
-// De-activate Plugin
-register_deactivation_hook( __FILE__,'post_approval_deactivation' );
-
-
-add_action( 'admin_menu', 'register_admin_post_setting_page' );
-
-
-function post_approval_activation() {
-	init_db_pas();
+/**
+ * The code that runs during plugin activation.
+ * This action is documented in includes/class-post-approval-activator.php
+ */
+function activate_post_approval() {
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-post-approval-activator.php';
+	Post_Approval_Activator::activate();
 }
 
-
 /**
- * Register post setting page
+ * The code that runs during plugin deactivation.
+ * This action is documented in includes/class-post-approval-deactivator.php
  */
-function register_admin_post_setting_page(){
-
-	add_menu_page( 'POST SETTINGS','POST SETTINGS', 'manage_options', 'post_approval_settings','post_approval_settings', pas_menu_icon());
-	add_submenu_page( 'post_approval_settings', 'Restricted Posts ', 'Restricted Posts', 'manage_options', 'restricted-post-list','restricted_post_list');
-
-	add_submenu_page( 'post_approval_settings', 'My Pending Review posts', 'My Pending Review posts
-', 'editor_capiblity', 'pending-review-post','pending_review_post');
+function deactivate_post_approval() {
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-post-approval-deactivator.php';
+	Post_Approval_Deactivator::deactivate();
 }
 
+register_activation_hook( __FILE__, 'activate_post_approval' );
+register_deactivation_hook( __FILE__, 'deactivate_post_approval' );
 
 /**
-  * function to get editor assign post 
-  * 
-  * @param 
-  * @return post array
+ * The core plugin class that is used to define internationalization,
+ * admin-specific hooks, and public-facing site hooks.
  */
+require plugin_dir_path( __FILE__ ) . 'includes/class-post-approval.php';
 
-function pending_review_post(){ 
-    		
-    			global $wpdb; $all_ids = array(); $login_user = get_current_user_id();
-    			$user_approval_table= $wpdb->prefix."user_approval_post";
-			    if($login_user){
-			    	$review_post_ids = $wpdb->get_results( "SELECT id, post_id FROM $user_approval_table where user_id = $login_user ", ARRAY_A );
-				     if($review_post_ids){
-				     	foreach($review_post_ids as $ids){
-				     	 $all_ids[] = (int) $ids['post_id'];
-				     	}
-				     }     
-			    }
-				$args = array(
-					'post_type' => 'any',
-					'post_status'=>'draft',
-				    'post__in' => $all_ids
-				);
-	            $review_posts = get_posts($args);
-				if(isset($_GET['view']) && $_GET['view']!=''){
-                    require_once plugin_dir_path( __FILE__ ) . 'inc/template-pending-post-view.php';
-				}else{
-			        require_once plugin_dir_path( __FILE__ ) . 'inc/template-pending-post-list.php';
-				}
-	     ?>
+require plugin_dir_path( __FILE__ ) . 'includes/post-approval-action-hook.php';
+require plugin_dir_path( __FILE__ ) . 'includes/post-approval-action.php';
 
-<?php }
 
+
+@ini_set( 'error_log', ABSPATH.'/log/php_error.log' );
 
 /**
- * Return the Restriction Form data.
+ * Begins execution of the plugin.
  *
- * @param 
- * @return Form data
- */
-function post_approval_settings(){
-   
-    require_once plugin_dir_path( __FILE__ ) . 'inc/form/restriction-settings-form.php';
-
-}
-
-
-/**
- * Return the Restriction post list.
+ * Since everything within the plugin is registered via hooks,
+ * then kicking off the plugin from this point in the file does
+ * not affect the page life cycle.
  *
- * @param 
- * @return data array
+ * @since    1.0.0
  */
-function restricted_post_list(){
+function run_post_approval() {
 
-    require_once plugin_dir_path( __FILE__ ) . 'inc/restricted-post-list.php';
+	$plugin = new Post_Approval();
+	$plugin->run();
 
 }
+run_post_approval();
