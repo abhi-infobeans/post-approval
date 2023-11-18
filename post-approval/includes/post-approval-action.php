@@ -311,11 +311,6 @@ function ajax_udpate_restricted_post(){
     wp_die(); 
 }
 
-function add_custom_capability_to_editor() {
-
-    $editor_role = get_role('editor');
-    $editor_role->add_cap('editor_capiblity');
-}
 
 /**
  * Function ajax request to delete assign post
@@ -427,9 +422,10 @@ function post_approval_settings(){
  */
 
 function pending_review_post(){ 
-    		
-    			global $wpdb; $all_ids = array(); $login_user = get_current_user_id();
-    			$user_approval_table= $wpdb->prefix."user_approval_post";
+    			
+    			global $wpdb; $all_ids =  $args = $review_posts = array();
+			$login_user = get_current_user_id();
+		        $user_approval_table= $wpdb->prefix."user_approval_post";
 			    if($login_user){
 			    	$review_post_ids = $wpdb->get_results( "SELECT id, post_id FROM $user_approval_table where user_id = $login_user ", ARRAY_A );
 				     if($review_post_ids){
@@ -438,12 +434,16 @@ function pending_review_post(){
 				     	}
 				     }     
 			    }
+			    if(!empty($all_ids)) {
 				$args = array(
 					'post_type' => 'any',
 					'post_status'=>'draft',
 				    'post__in' => $all_ids
-				);
-	            $review_posts = get_posts($args);
+				    );
+
+				 $review_posts = get_posts($args);
+			    }
+				
 				if(isset($_GET['view']) && $_GET['view']!=''){
                     require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/post-approval-pending-post-view.php';
 				}else{

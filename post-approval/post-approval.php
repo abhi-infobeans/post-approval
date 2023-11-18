@@ -69,7 +69,16 @@ register_deactivation_hook( __FILE__, 'deactivate_post_approval' );
  */
 require plugin_dir_path( __FILE__ ) . 'includes/class-post-approval.php';
 
+/**
+ * The core plugin file that is used to define action hook,
+ * admin-specific hooks.
+ */
 require plugin_dir_path( __FILE__ ) . 'includes/post-approval-action-hook.php';
+
+/**
+ * The core plugin file that is used to define hook action functions,
+ * admin-specific actions.
+ */
 require plugin_dir_path( __FILE__ ) . 'includes/post-approval-action.php';
 
 

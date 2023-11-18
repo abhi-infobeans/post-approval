@@ -43,6 +43,7 @@ class Post_Approval_Deactivator {
 	    $wpdb->query($sql1);
 	    $wpdb->query($sql2);
 	    $wpdb->query($sql3);
+	    $wpdb->query( "DELETE FROM $wpdb->options WHERE option_name LIKE '%_post_restricted_users%';" );
 
 	}
 }
