@@ -13,8 +13,6 @@
 /**
  * The admin-specific functionality of the plugin.
  *
- * Defines the plugin name, version, and two examples hooks for how to
- *
  * @package    Post_Approval
  * @subpackage Post_Approval/admin
  * @author     Infobeans <infobeans@test.com>
@@ -72,7 +70,6 @@ class Post_Approval_Admin {
 	public function enqueue_scripts() {
 
 		wp_enqueue_script( 'post-approval-script', plugin_dir_url( __FILE__ ) . 'js/post-approval-admin.js', array( 'jquery' ), '1.0', true );
-
 
 	}
 
