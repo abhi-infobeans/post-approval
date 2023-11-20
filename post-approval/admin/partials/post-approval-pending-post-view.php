@@ -33,7 +33,7 @@ if(($key = array_search(get_current_user_id(), $post_viewer_users)) !== false) {
 
    <div id="wpbody-content">
       <div class="wrap">
-         <h1 class="wp-heading-inline"><b>Re Assign Post </b> </h1>
+         <h1 class="wp-heading-inline"><b>Re-Assign Post </b> </h1>
          <br class="clear">
          <hr class="wp-header-end">
          <div class="main">
@@ -54,7 +54,7 @@ if(($key = array_search(get_current_user_id(), $post_viewer_users)) !== false) {
                      </td>
                   </tr>
                   <tr>
-                     <th scope="row"><label for="label"> Re Assigne Users: </label></th>
+                     <th scope="row"><label for="label"> Re-Assign Users: </label></th>
                      <td>
                         <select id="assigne_user" name="assigne_user">
                            <option value="">Select any one</option>

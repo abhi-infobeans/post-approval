@@ -30,7 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <thead>
    <tr>
       <td>Post Title</td>
-      <td>Post Contect</td>
+      <td>Post Content</td>
       <td>Comment</td>
       <td>Action</td>
    </tr>
@@ -70,7 +70,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <tfoot>
    <tr>
       <td>Post Title</td>
-      <td>Post Contect</td>
+      <td>Post Content</td>
       <td>Comment</td>
       <td>Action</td>
    </tr>
