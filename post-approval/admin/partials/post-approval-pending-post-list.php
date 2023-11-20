@@ -56,7 +56,7 @@ if ( ! defined( 'ABSPATH' ) ) {
         <?php 
          echo '<tr id="" class="iedit author-self level-0 post-3 type-page status-draft hentry">
                   <td>'.ucfirst($post->post_title).'</td>
-                  <td>'.$post->post_content.'</td>
+                  <td>'.wp_trim_words( $post->post_content, 20 ).'</td>
                   <td>'.$comment_data.'</td>
                   <td><a href= "'.get_edit_post_link($post->ID).'">  Publish </a> | <a href= "'.admin_url().'/admin.php?page=pending-review-post&view='.$post->ID.'">  Re Assign </a> | <span class="delete_post" postid ="'.$post->ID.'">Delete</span> </td></tr>';
 

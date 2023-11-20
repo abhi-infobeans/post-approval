@@ -59,7 +59,7 @@ class Post_Approval_Admin {
 	public function enqueue_styles() {
 
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/post-approval-admin.css', array(), $this->version, 'all' );
-
+		wp_enqueue_style( 'chosen-css', plugin_dir_url( __FILE__ ) . 'css/chosen.css', array(), $this->version, 'all' );
 	}
 
 	/**
@@ -81,15 +81,14 @@ class Post_Approval_Admin {
 	public function add_admin_menu(){
 
 
-		add_menu_page( 'POST SETTINGS','POST SETTINGS', 'manage_options', 'post_approval_settings','post_approval_settings', $this->pas_menu_icon());
-		
-		add_submenu_page( 'post_approval_settings', 'Restricted Posts ', 'Restricted Posts', 'manage_options', 'restricted-post-list','restricted_post_list');
+		add_menu_page( 'POST APPROVAL','POST APPROVAL', 'manage_options', 'restricted-post-list','restricted_post_list', $this->pas_menu_icon());
 
-		add_submenu_page( 'post_approval_settings', 'My Pending Review posts', 'My Pending Review posts', 'editor_capiblity', 'pending-review-post','pending_review_post');
+        add_submenu_page( 'restricted-post-list', 'RESTRICTION SETTING FORM', 'RESTRICTION SETTING FORM', 'manage_options', 'post_approval_settings','post_approval_settings');
+
+		add_submenu_page( 'restricted-post-list', 'My Pending Review posts', 'My Pending Review posts', 'editor_capiblity', 'pending-review-post','pending_review_post');
 		
 	}
    
-
     /**
 	 * For update save functionality for restricted post in the admin area.
 	 *

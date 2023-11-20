@@ -15,14 +15,14 @@
  * @wordpress-plugin
  * Plugin Name:       Post Approval
  * Plugin URI:        https://post_approval.com
- * Description:       Post approval life cycle system.
+ * Description:       It will be a post (Any kind of post) approval life cycle system, It will be 						 in the draft status until unless assigned Editor approves it. Submitted posts 					  	will be assigned to the available Editors in a way that each editor should 						 get equal amount of assignments.
  * Version:           1.0.0
  * Author:            Infobeans
  * Author URI:        https://infobeans.com/
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       post-approval
- * Requires wordpress at least: 6.4.1
+ * Requires wordpress at least: 6.4.1 
  * Tested on: 6.4.1
  */
 
@@ -80,7 +80,6 @@ require plugin_dir_path( __FILE__ ) . 'includes/post-approval-action-hook.php';
  * admin-specific actions.
  */
 require plugin_dir_path( __FILE__ ) . 'includes/post-approval-action.php';
-
 
 
 /**

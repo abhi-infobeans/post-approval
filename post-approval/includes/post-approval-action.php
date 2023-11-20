@@ -153,9 +153,10 @@ function ajax_process_post() {
     	$old_restrected_user = get_option($key);
 	    foreach ( $usersData  as $user ) {
 	    	if(!empty($old_restrected_user)){
-	    		$checked_val = (in_array($user->id, $old_restrected_user)) ? 'checked' : '';
+	    		$checked_val = (in_array($user->id, $old_restrected_user)) ? 'selected' : '';
 	    	}
-			$user_data.= '<li class="li-user"> <input type="checkbox" name="restricted_user[]" value ='.$user->id.' '.$checked_val.'>' . ucfirst($user->display_name ). '</li>';
+       
+        $user_data.='<option  value ='.$user->id.' '.$checked_val.' >' . ucfirst($user->display_name  ).'</option>';
 		}
     }
     echo json_encode(array('success' => true, 'data' => $user_data));
@@ -289,7 +290,9 @@ function ajax_re_assign_post(){
 
         $sql = $wpdb->prepare( "INSERT INTO ".$user_comment_table." (user_id, post_id,user_comment) VALUES ( %d, %d, %s)", $_POST['userid'], $_POST['id'], $_POST['comment'] );
         $wpdb->update($user_approval_table, array('post_id'=>$_POST['id'], 'user_id'=>$_POST['assign_user']), array('post_id'=>$_POST['id']));
+
         update_post_meta($_POST['id'],'post_viewer',$_POST['assign_user']);
+
         $wpdb->query($sql);
         $url = admin_url()."/admin.php?page=pending-review-post";
         echo json_encode(array('success' => true, 'message' => 'Re assigned post Successfully!!!','url'=>$url));
@@ -332,7 +335,13 @@ function user_post_comment($post_id = false){
  * @return Form data
  */
 function post_approval_settings(){
-    require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/form/post-approval-restriction-settings-form.php';
+
+	if(isset($_GET['edit']) && $_GET['edit'] && $_GET['edit']!=''){
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/form/post-approval-restriction-settings-edit-form.php';
+	}else{
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/form/post-approval-restriction-settings-form.php';
+	}
+    
 }
 
 
@@ -417,6 +426,9 @@ function pas_admin_url( $path ) {
 function post_approval_scripts() {
 
     wp_enqueue_script( 'post-approval-script', POST_APPROVAL_PLUGIN_DIR. 'includes/js/post-approval.js', array('jquery'), '1.0', true );
+
+   wp_enqueue_script( 'chosen.jquery', POST_APPROVAL_PLUGIN_DIR. 'includes/js/chosen.jquery.js', array('jquery'), '1.0', true );
+    
     wp_localize_script( 'post-approval-script', 'approval_object', 
         array( 
             'ajax_url' => admin_url( 'admin-ajax.php' ),

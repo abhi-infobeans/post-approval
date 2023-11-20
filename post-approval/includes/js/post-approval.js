@@ -1,7 +1,11 @@
 
 jQuery(document).ready(function($) {
     
-
+    
+	$(".chosen-select-width").chosen({
+	    width: "59%"
+	 });
+	
     var checked = []
 	$("input[name='options[]']:checked").each(function (){
 	    checked.push(parseInt($(this).val()));
@@ -22,8 +26,11 @@ jQuery(document).ready(function($) {
 		            dataType: 'JSON',
 
 		            success : function( response ) {
-		                console.log(response.data)
-		                $(".restricted_user_data").html(response.data);
+
+		            	$('#idofdropdown').empty(); //remove all child nodes
+		                $("#restricted_user_data").html(response.data);
+		                $('#restricted_user_data').trigger("chosen:updated");
+
 		            }
 		        });
 	        }
@@ -126,9 +133,6 @@ jQuery(document).ready(function($) {
 		   alert('If you wish to delete all users from the system, you can use the "delete" function to remove them all at once.');
 		}
 	    	
-	        
-	    
-        
         return false;
     });
 
@@ -204,9 +208,4 @@ jQuery(document).ready(function($) {
         
         return false;
     });
-
-
-
-
-
 });
