@@ -2,18 +2,23 @@
  * All of the CSS for your admin-specific functionality should be
  * included in this file.
  */
-
-
 .delete_rpost, .edit_rpost, .delete_post{
-	cursor: pointer;
+     	cursor: pointer;
 	color: #2271b1;
 }
-
 li.li-user {
-    display: inline-grid;
-    margin-right: 20px;
-    
+    	display: inline-grid;
+    	margin-right: 20px;
 }
 .restricted_show_hide{
 	display: none;
+}
+.no-user{
+	color: black;
+	height: 50px;
+	background: #b8b8c3;
+	margin-bottom: 15px;
+	margin0l: 10p;
+	padding-left: 14px;
+	margin-top: 10px;
 }

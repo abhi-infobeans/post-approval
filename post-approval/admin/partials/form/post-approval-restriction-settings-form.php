@@ -77,7 +77,7 @@
 	$post_types = get_post_types( $args, $output, $operator );
 	$usersData = get_all_editors();
 
-     echo '<div><b>Please select the type of post that needs to be restricted </b></div>';
+     echo '<div><b>Please select the type of post that needs to be restricted </b></div><br>';
    
 	if ( $post_types ) { // If there are any custom public post types.
 
@@ -106,6 +106,8 @@
 			    }
 
 			echo '</ul>';
+		}else{
+			echo "<div class='no-user'><br>There is no user with an editor role. Please create a new user with editor permissions to assign the post.</div>";
 		}
 
     echo '<input type="submit"value="Save" class="button button-primary">';
