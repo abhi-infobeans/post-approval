@@ -171,6 +171,7 @@ function ajax_process_post() {
  * @param  Post Id
  */
 function change_post_status_after_save( $post_id, $post, $update ) {
+
     if(!exist_post_or_not($post_id)){
      	reviewr_users($post->ID);
     }
@@ -264,7 +265,7 @@ function ajax_delete_assign_post(){
     global $wpdb;
 	check_ajax_referer( 'post-approval-nonce', 'nonce' );  // Check the nonce.
 	if($_POST['id']){
-		wp_trash_post($_POST['id']);
+		wp_delete_post($_POST['id'],true);
         $wpdb->delete( TABLE_USER_POST_APPROVAL, array( 'post_id' => $_POST['id']) );
         echo json_encode(array('success' => true, 'message' => 'Deleted Successfully!!!'));
 	}else{
@@ -294,7 +295,13 @@ function ajax_re_assign_post(){
         update_post_meta($_POST['id'],'post_viewer',$_POST['assign_user']);
 
         $wpdb->query($sql);
-        $url = admin_url()."/admin.php?page=pending-review-post";
+
+        if(current_user_can('administrator')){
+            $url = admin_url()."/admin.php?page=all-pending-review-post";
+        }else{
+        	$url = admin_url()."/admin.php?page=pending-review-post";
+        }
+
         echo json_encode(array('success' => true, 'message' => 'Re assigned post Successfully!!!','url'=>$url));
 	}else{
         echo json_encode(array('success' => false, 'message' => 'Something goes worng, please try again latter'));
@@ -368,7 +375,8 @@ function pending_review_post(){
 				$args = array(
 					'post_type' => 'any',
 					'post_status'=>'draft',
-				    'post__in' => $all_ids
+				    'post__in' => $all_ids,
+				    'posts_per_page' => -1
 				    );
 
 				 $review_posts = get_posts($args);
@@ -436,3 +444,46 @@ function post_approval_scripts() {
         )
     );
 }
+
+
+
+/**
+  * function to get all assign post for amdin 
+  * 
+  * @param 
+  * @return post array
+ */
+function all_pending_review_post(){ 
+    			
+    		global $wpdb; $all_ids =  $args = $review_posts = array();
+			$login_user = get_current_user_id();
+		        $user_approval_table= $wpdb->prefix."user_approval_post";
+			    if($login_user){
+			    	$review_post_ids = $wpdb->get_results( "SELECT id, post_id FROM $user_approval_table ", ARRAY_A );
+				     if($review_post_ids){
+				     	foreach($review_post_ids as $ids){
+				     	 $all_ids[] = (int) $ids['post_id'];
+				     	}
+				     }     
+			    }
+
+			    if(!empty($all_ids)) {
+				$args = array(
+					'post_type' => 'any',
+					'post_status'=>'draft',
+				    'post__in' => $all_ids,
+				    'posts_per_page' => -1
+
+				    );
+
+				$review_posts = get_posts($args);
+			    }
+				if(isset($_GET['view']) && $_GET['view']!=''){
+                    require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/post-approval-pending-post-view.php';
+				}else{
+			        require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/post-approval-all-pending-post-list.php';
+				}
+	     ?>
+<?php }
+
+

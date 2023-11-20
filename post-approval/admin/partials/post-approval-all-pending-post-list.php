@@ -1,7 +1,7 @@
-
 <?php
+
 /**
- * Provide a pending view post list content in admin area view for the plugin
+ * Provide a pending view post list content view for the admin plugin
  *
  * This file is used to markup the admin-facing aspects of the plugin.
  *
@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <div id="wpbody-content">
 		<div class="wrap">
 
-<h1 class="wp-heading-inline"><b>Review Post Listing </b> </h1> 
+<h1 class="wp-heading-inline"><b> Pending Review Posts </b> </h1> 
 
 <br class="clear">
 <hr class="wp-header-end">
@@ -30,7 +30,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 <thead>
    <tr>
       <td>Post Title</td>
-      <td>Post Content</td>
+      <td>Assigned User</td>
+      <td>Post Type</td>
       <td>Comment</td>
       <td>Action</td>
    </tr>
@@ -40,6 +41,10 @@ if ( ! defined( 'ABSPATH' ) ) {
         if($review_posts ){ 
 
             foreach($review_posts as $post){
+                 
+               $user_info = get_userdata(get_post_meta($post->ID,'post_viewer',true));
+       		   $user_name = ucfirst($user_info->display_name);
+
 
                $comment_data = '';
                if(user_post_comment($post->ID)){
@@ -56,13 +61,13 @@ if ( ! defined( 'ABSPATH' ) ) {
         <?php 
          echo '<tr id="" class="iedit author-self level-0 post-3 type-page status-draft hentry">
                   <td>'.ucfirst($post->post_title).'</td>
-                  <td>'.wp_trim_words( $post->post_content, 20 ).'</td>
+                  <td>'.$user_name.'</td>
+                  <td>'.$post->post_type.'</td>
                   <td>'.$comment_data.'</td>
-                  <td><a href= "'.get_edit_post_link($post->ID).'">  Publish </a> | <a href= "'.admin_url().'/admin.php?page=pending-review-post&view='.$post->ID.'">  Re Assign </a> | <span class="delete_post" postid ="'.$post->ID.'">Delete</span> </td></tr>';
-
+                  <td><a href= "'.admin_url().'/admin.php?page=all-pending-review-post&view='.$post->ID.'">  Re Assign </a> | <span class="delete_post" postid ="'.$post->ID.'">Delete</span> </td></tr>';
             }   
         }else{
-        	echo '<tr><td colspan="4"><b>No Restricted Post</b></td></tr>';
+        	echo '<tr><td colspan="5"><b>No Restricted Post</b></td></tr>';
         }
 
     ?>
@@ -70,7 +75,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 <tfoot>
    <tr>
       <td>Post Title</td>
-      <td>Post Content</td>
+      <td>Assigned User</td>
+      <td>Post Type</td>
       <td>Comment</td>
       <td>Action</td>
    </tr>
@@ -82,5 +88,3 @@ if ( ! defined( 'ABSPATH' ) ) {
       <div class="clear"></div>
    </div>
 <div class="clear"></div>
-
-

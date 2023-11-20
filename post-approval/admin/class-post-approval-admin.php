@@ -86,6 +86,8 @@ class Post_Approval_Admin {
         add_submenu_page( 'restricted-post-list', 'RESTRICTION SETTING FORM', 'RESTRICTION SETTING FORM', 'manage_options', 'post_approval_settings','post_approval_settings');
 
 		add_submenu_page( 'restricted-post-list', 'My Pending Review posts', 'My Pending Review posts', 'editor_capiblity', 'pending-review-post','pending_review_post');
+
+		add_submenu_page( 'restricted-post-list', ' PENDING REVIEW POSTS', 'PENDING REVIEW POSTS', 'manage_options', 'all-pending-review-post','all_pending_review_post');
 		
 	}
    
@@ -111,7 +113,6 @@ class Post_Approval_Admin {
 	        }
 	    }
 	}
-
 
 	/**
 	 * For add capbility to editor user role in the admin area.

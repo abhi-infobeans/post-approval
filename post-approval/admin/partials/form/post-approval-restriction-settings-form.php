@@ -11,8 +11,10 @@
  * @package    Post_Approval
  * @subpackage Post_Approval/admin/partials/form
  */
-
-
+   ?>
+   	
+  <?php
+    
     global $wpdb;
     $table_name = TABLE_RES_POST;
     
@@ -94,18 +96,17 @@
       echo '</select>';
 	}
 
-    echo '<div><br><b>Please select the user that you want to restrict as a viewer of the post </b></div>';
+    echo '<div><br><b>Please select the user that you want to restrict as a viewer of the post </b></div><br>';
     
 		if ( $usersData ) { // If there are any editor users.
 
-			echo '<ul class="restricted_user_data">';
-			    
-			    foreach ( $usersData  as $user ) {
-			    	
-			        echo '<li class="li-user"> <input type="checkbox" name="restricted_user[]" value ='.$user->id.'>' . ucfirst($user->display_name ). '</li>';
-			    }
+   		echo '<select data-placeholder="Start typing to select a editor user" multiple class="chosen-select-width" tabindex="16" id="restricted_user_data" name="restricted_user[]">';
+        foreach ( $usersData  as $user ) {
 
-			echo '</ul>';
+		        echo '<option  value ='.$user->id.'>' . ucfirst($user->display_name  ).'</option>';
+		    }
+      echo '</select><br><br><br>';
+
 		}else{
 			echo "<div class='no-user'><br>There is no user with an editor role. Please create a new user with editor permissions to assign the post.</div>";
 		}
@@ -114,3 +115,7 @@
     echo '<input type="hidden" name="savedata" value="savedata">';
 	echo '</form>';
 echo '</div>';
+
+?>
+
+<div id="selectedlist"></div>
