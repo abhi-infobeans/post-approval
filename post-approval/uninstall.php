@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Post Approval Uninstall
  *
@@ -8,7 +9,7 @@
  * @version 1.0.0
  */
 
-defined( 'WP_UNINSTALL_PLUGIN' ) || exit;
+defined('WP_UNINSTALL_PLUGIN') || exit;
 
 global $wpdb;
 
@@ -19,4 +20,4 @@ global $wpdb;
  */
 
 // Delete options.
-$wpdb->query( "DELETE FROM $wpdb->options WHERE option_name LIKE '%_post_restricted_users%';" );
+$wpdb->query("DELETE FROM $wpdb->options WHERE option_name LIKE '%_post_restricted_users%';");

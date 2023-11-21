@@ -20,7 +20,8 @@
  * @subpackage Post_Approval/includes
  * @author     Infobeans <infobeans@test.com>
  */
-class Post_Approval_Activator {
+class Post_Approval_Activator
+{
 
 	/**
 	 * Short Description. (use period)
@@ -29,9 +30,10 @@ class Post_Approval_Activator {
 	 *
 	 * @since    1.0.0
 	 */
-	public static function activate() {
-    
-	    // WP Globals
+	public static function activate()
+	{
+
+		// WP Globals
 		global $table_prefix, $wpdb;
 
 		// Restricted Post Table
@@ -40,7 +42,7 @@ class Post_Approval_Activator {
 		$userPostCommentTable = TABLE_USER_POST_COMMENT;
 
 		// Create Restricted Post Table if not exist
-		if( $wpdb->get_var( "show tables like '$restrictedPostTable'" ) != $restrictedPostTable ) {
+		if ($wpdb->get_var("show tables like '$restrictedPostTable'") != $restrictedPostTable) {
 
 			// Query - Create Table
 			$sql = "CREATE TABLE `$restrictedPostTable` (";
@@ -51,14 +53,14 @@ class Post_Approval_Activator {
 			$sql .= ") ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;";
 
 			// Include Upgrade Script
-			require_once( ABSPATH . '/wp-admin/includes/upgrade.php' );
-		
+			require_once(ABSPATH . '/wp-admin/includes/upgrade.php');
+
 			// Create Table
-			dbDelta( $sql );
+			dbDelta($sql);
 		}
 
 		// Create User Approval Post Table if not exist
-		if( $wpdb->get_var( "show tables like '$userApprovalPostTable'" ) != $userApprovalPostTable ) {
+		if ($wpdb->get_var("show tables like '$userApprovalPostTable'") != $userApprovalPostTable) {
 
 			// Query - Create Table
 			$sql = "CREATE TABLE `$userApprovalPostTable` (";
@@ -70,14 +72,14 @@ class Post_Approval_Activator {
 			$sql .= ") ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;";
 
 			// Include Upgrade Script
-			require_once( ABSPATH . '/wp-admin/includes/upgrade.php' );
-		
+			require_once(ABSPATH . '/wp-admin/includes/upgrade.php');
+
 			// Create Table
-			dbDelta( $sql );
+			dbDelta($sql);
 		}
 
 		// Create User post Custom Comment table if not exist
-		if( $wpdb->get_var( "show tables like '$userPostCommentTable'" ) != $userPostCommentTable ) {
+		if ($wpdb->get_var("show tables like '$userPostCommentTable'") != $userPostCommentTable) {
 
 			// Query - Create Table
 			$sql = "CREATE TABLE `$userPostCommentTable` (";
@@ -89,18 +91,10 @@ class Post_Approval_Activator {
 			$sql .= ") ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;";
 
 			// Include Upgrade Script
-			require_once( ABSPATH . '/wp-admin/includes/upgrade.php' );
+			require_once(ABSPATH . '/wp-admin/includes/upgrade.php');
 
 			// Create Table
-			dbDelta( $sql );
+			dbDelta($sql);
 		}
-			  
-
 	}
-
 }
-
-
-
-	
-

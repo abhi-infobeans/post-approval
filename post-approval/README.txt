@@ -1,58 +1,59 @@
-=== Post Approval ===
-Contributors: (this should be a list of wordpress.org userid's)
-Donate link: https://infobeans.com/
-Tags: comments
-Requires at least: 6.4.1 
-Requires wordpress at least: 6.4.1 
+==== Post Approval === 
+Requires at least: 6.4.1  
+Requires WordPress at least: 6.4.1  
 Tested on: 6.4.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-== Description ==
+## Description
 
-The system we're creating will manage the life cycle of posts, of any kind. When a post is submitted, it will be in draft status until an assigned editor approves it. To ensure fairness, submitted posts will be assigned to editors in a way that each editor gets an equal amount of assignments.
+The Post Approval plugin is a powerful tool for managing post restrictions and ensuring a controlled review process before posts are published. It allows administrators to assign post types, such as posts and custom posts, to specific editor users for careful review.
 
+### Features
 
-A few notes about the sections above:
+- **Post Approval Menu:** Restricts access to the post list for admin users.
+- **Restriction Settings Form:** Admin users can configure post restriction settings, including adding, editing, and deleting restrictions.
+  - Set any post type (post, custom-post) to multiple editor user roles for restriction.
+  - After setting restrictions, newly created posts will be automatically assigned to restricted editor users for review before publishing.
 
-*   "Requires at least" is the lowest version that the plugin will work on
-*   "Tested up to" is the highest version that you've *successfully used to test the plugin*. Note that it might work on
-higher versions... this is just the highest one you've verified.
-*   Stable tag should indicate the Subversion "tag" of the latest stable version, or "trunk," if you use `/trunk/` for
-stable.
+- **Pending Review Post Menu:** Provides editor users with a convenient list of pending posts assigned for review.
+  - Editors can review, publish, and reassign posts to other editor users, ensuring a collaborative and streamlined review process.
 
+- **Fair Assignment:** The plugin manages the life cycle of restricted posts. When a user submits a post, the plugin intelligently assigns the post to editors, keeping it in draft status until any assigned editor approves it. This ensures fairness by evenly distributing submitted posts among editors.
 
+- **Customizable Workflow:** Tailor the plugin to fit your workflow seamlessly. Customize post types, editor roles, and other settings through the intuitive plugin interface.
 
-    If no stable tag is provided, it is assumed that trunk is stable, but you should specify "trunk" if that's where
-you put the stable version, in order to eliminate any doubt.
+## Installation
 
-== Installation ==
+1. Upload the `post-approval` folder to the `/wp-content/plugins/` directory.
+2. Activate the plugin through the 'Plugins' menu in WordPress.
+3. Navigate to the "POST APPROVAL" menu.
 
-This section describes how to install the plugin and get it working.
+## Getting Started
 
-e.g.
+1. Go to the "POST APPROVAL" menu and configure your post restriction settings using the "Restriction Settings Form."
+2. Create new posts, and they will automatically be assigned to the designated editor users for review.
+3. Editors can find pending review posts in the "PENDING REVIEW POST" menu, review them, publish, and reassign as needed.
 
-1. Upload `post-approval folder` to the `/wp-content/plugins/` directory
-1.1 Activate the plugin through the 'Plugins' menu in WordPress
+## Frequently Asked Questions
 
-== Frequently Asked Questions ==
+### How are posts assigned to editors?
 
-= A question that someone might have =
+Posts are intelligently assigned to editors to ensure a fair distribution of review tasks.
 
-An answer to that question.
+### Where can editors find pending review posts?
 
+Editors can find pending review posts in the "MY PENDING REVIEW POST" menu.
 
-== Changelog ==
+## Changelog
 
-= 1.0 =
-* A change since the previous version.
-* Another change.
+### 1.0.0
+- Initial release.
 
+## Contribute
 
-== Upgrade Notice ==
+You can contribute to the development of this plugin on [GitHub](https://github.com/post-approval).
 
-= 1.0 =
-Upgrade notices describe the reason a user should upgrade.  No more than 300 characters.
+## License
 
-`<?php code(); // goes in backticks ?>`
-
+This plugin is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
