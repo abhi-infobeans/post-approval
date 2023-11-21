@@ -15,7 +15,7 @@
  * @wordpress-plugin
  * Plugin Name:       Post Approval
  * Plugin URI:        https://post_approval.com
- * Description:       It will be a post (Any kind of post) approval life cycle system, It will be 						 in the draft status until unless assigned Editor approves it. Submitted posts 					  	will be assigned to the available Editors in a way that each editor should 						 get equal amount of assignments.
+ * Description:       The Post Approval plugin is a powerful tool for managing post restrictions and ensuring a controlled review process before posts are published. It allows administrators to assign post types, such as posts and custom posts, to specific editor users for careful review.
  * Version:           1.0.0
  * Author:            Infobeans
  * Author URI:        https://infobeans.com/
